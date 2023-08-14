@@ -8,17 +8,17 @@ export function NavMenu() {
       <ul className="py-4">
         <li>
             <Link href="/">Dashboard</Link></li>
-        <li><Link href="/">Ver tratamientos</Link></li>
-        <li><Link href="/">Añadir tratamiento</Link></li>
+        <li><Link href="/dashboard/treatments/">Ver tratamientos</Link></li>
+        <li><Link href="/dashboard/treatments/add/">Añadir tratamiento</Link></li>
       </ul>
       <hr />
       <ul className="py-4">
-        <li><Link href="/">Ver usuarios</Link></li>
-        <li><Link href="/">Añadir usuarios</Link></li>
+        <li><Link href="/dashboard/users/">Ver usuarios</Link></li>
+        <li><Link href="/dashboard/users/add">Añadir usuarios</Link></li>
       </ul>
       <hr />
       <ul className="py-4">
-        <li><Link href="/">Configuraciones</Link></li>
+        <li><Link href="/dashboard/settings/">Configuraciones</Link></li>
         <li><Link href="/">Cerrar sesión</Link></li>
       </ul>
 
