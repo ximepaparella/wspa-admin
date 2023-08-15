@@ -6,3 +6,5 @@ const watterCircuit = [
         visitorPrice: 15000,
     }
 ] 
+
+export default watterCircuit;

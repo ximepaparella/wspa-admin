@@ -39,3 +39,5 @@ const memberships = [
         ]
     }
 ]
+
+export default memberships;

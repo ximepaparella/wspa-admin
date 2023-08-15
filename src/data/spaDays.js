@@ -100,3 +100,5 @@ const spaDays = [
         ]
     },
 ]
+
+export default spaDays;

@@ -1,5 +1,4 @@
 "use client"
-import {NavMenu} from '@/components/navMenu' 
 
 export default function AddTreatment() {
   return (
