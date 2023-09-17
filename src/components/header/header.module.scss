@@ -1,0 +1,30 @@
+.mod-header {
+    border-bottom: 1px solid var(--white);
+    width: 100%;
+    z-index: 10;
+    position: relative;
+
+    .lay {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background: transparent;
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .mod-header {
+        background-color: var(--white);
+    }
+}
+
+@media screen and (min-width:651px) and (max-width:1023px){
+    .mod-header {
+        .lay {
+            padding:10px;
+        }
+    }
+}
+

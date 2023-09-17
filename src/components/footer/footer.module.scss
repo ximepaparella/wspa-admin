@@ -1,0 +1,33 @@
+.mod-footer {
+    div {
+        display: flex;
+        flex-direction: row;
+        padding: 15px;
+        font-size: 13px;
+
+        &.--right {
+            justify-content: flex-end;
+            text-align: center;
+        }
+
+    }
+}
+
+@media screen and (max-width:650px) {
+    .mod-footer {
+        .lay {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        p {
+            line-height: 16px;
+        }
+
+        div {
+            &.--right {
+                justify-content: center;
+            }
+        }
+    }
+}

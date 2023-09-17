@@ -1,0 +1,18 @@
+.com-logo {
+    font-size:24px;
+    .icon-logo {
+        &:before {
+            color:var(--white);
+        }
+    }
+}
+
+@media screen and (max-width:650px) {
+    .com-logo {
+        .icon-logo {
+            &:before {
+                color: var(--text);
+            }
+        }
+    }
+}
