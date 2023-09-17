@@ -1,28 +1,33 @@
-//create react header component
+// Your menuData remains unchanged.
+
+// React header component
 import React from "react";
 
-//import css
+// Import CSS
 import styles from "./menu.module.scss";
+import menuData from "../../data/menuData";
 
-//create menu component
+console.log('menuData', menuData);
+
+// Create menu component
 const Menu = () => {
   return (
     <>
-      <a id="menu-mobile">
+      {/* If this is meant to be a clickable menu icon, it's more appropriate to use a button. */}
+      <button id="menu-mobile" className={styles["menu-button"]}>
         <i className={styles["icon-menu"]}></i>
-      </a>
+      </button>
+      
       <nav className={styles["mod-menu"]}>
-        <a className="active" href="index.html">
-          Inicio
-        </a>
-        <a href="tratamientos.html">Tratamientos</a>
-        <a href="circuitos-de-spa.html">Circuitos de Spa</a>
-        <a href="membresias.html">Membresías</a>
-        <a href="contacto.html">Contacto</a>
+          {menuData?.map((item, index) => (
+           <a className="active" key={index} href={item.url}>
+             {item.text}
+           </a>
+          ))}
       </nav>
     </>
   );
 };
 
-//export menu component
+// Export menu component
 export default Menu;
