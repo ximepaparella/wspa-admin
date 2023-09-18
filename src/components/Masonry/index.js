@@ -14,13 +14,13 @@ const Masonry = () => (
             <a href="tratamientos.html#tratamientos-faciales" className={styles["--description"]}>
                 <h3>FACIALES</h3>
             </a>
-           <Image objectFit='cover' className={styles["com-image"]} alt="image" src={imageFaciales} />
+           <Image height={300} className={styles["com-image"]} alt="image" src={imageFaciales} />
         </div>
         <div className={styles["com-grid-item"]}>
             <a href="tratamientos.html#tratamientos-premium" className={styles["--description"]}>
                 <h3>TRATAMIENTOS PREMIUM</h3>
             </a>
-           <Image objectFit='cover'  className={styles["com-image"]} alt="image" src={imageSpa} />
+           <Image height={300}  className={styles["com-image"]} alt="image" src={imageSpa} />
         </div>
     </div>
 
@@ -29,7 +29,7 @@ const Masonry = () => (
             <a href="circuitos-de-spa.html" className={styles["--description"]}>
                 <h3>CIRCUITOS DE SPA</h3>
             </a>
-           <Image objectFit='cover'  className={styles["com-image"]} alt="image" src={imageCircuitos} />
+           <Image height={625}  className={styles["com-image"]} alt="image" src={imageCircuitos} />
         </div>
     </div>
 
@@ -38,13 +38,13 @@ const Masonry = () => (
             <a href="tratamientos.html#tratamientos-corporales" className={styles["--description"]}>
                 <h3>CORPORALES</h3>
             </a>
-           <Image className={styles["com-image"]} alt="image" src={imageCorporales} />
+           <Image height={300} className={styles["com-image"]} alt="image" src={imageCorporales} />
         </div>
         <div className={styles["com-grid-item"]}>
             <a href="membresias.html" className={styles["--description"]}>
                 <h3>MEMBRESIAS</h3>
             </a>
-           <Image className={styles["com-image"]} alt="image" src={imageMembresias} />
+           <Image height={300} className={styles["com-image"]} alt="image" src={imageMembresias} />
         </div>
     </div>
 </div>

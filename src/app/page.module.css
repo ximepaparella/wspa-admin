@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding:50px 0;
+    padding-bottom:50px;
 }
 
 .mod-section:last-of-type{
@@ -15,5 +15,11 @@
     .mod-section {
         padding:0;
     }
+}
+
+.services {
+    display:flex;
+    flex-direction: row;
+    padding: 24px 0;
 }
 

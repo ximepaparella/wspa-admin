@@ -5,13 +5,11 @@
 }
 
 .mod-img-grid {
-    display: -ms-flexbox;
-    display: -webkit-box;
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     width: 100%;
-    margin: 3.125em 0;
+    margin: 3.125em 0 0 0;
 
     img {
         width: 100%;

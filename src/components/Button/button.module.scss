@@ -1,0 +1,16 @@
+.button {
+    padding: 10px 25px;
+    background-color: var(--primary);
+    transition: all .5s ease-in;
+    color: var(--white);
+
+    &:hover {
+        opacity: 0.8;
+        transition: all .5s ease-out;
+        background-color: var(--secondary);
+        color: var(--text);
+    }
+
+}
+
+@media screen and (max-width:650px) {}

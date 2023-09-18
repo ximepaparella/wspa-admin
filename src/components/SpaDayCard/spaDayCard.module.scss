@@ -1,0 +1,82 @@
+.spa-card {
+    display: flex;
+    flex-direction: row;
+
+
+    .badge {
+        background-color: pink;
+        color: #FFF;
+        text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.8);
+        position: absolute;
+        text-align: center;
+        bottom: 10px;
+        padding: 0.625em 0.625em 0.9375em 0.625em;
+        z-index:10;
+        width: 60%;
+        height:80px;
+        font-family: var(--font-titles);
+        font-size: 1.25rem;
+    }
+
+    .pre-title {
+        font-size: 0.9375rem;
+        line-height: 1.375rem;
+        font-family: var(--font-default);
+        font-weight: normal;
+        
+    }
+
+    .treatment-title {
+        font-size: 2.5rem;
+        font-family: "Playfair Display", serif;
+        font-weight: bold;
+    }
+
+    .media {
+        position:relative;
+    }
+
+    .image {
+        position:relative;
+    }
+
+    .description {
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        text-align: center;
+        padding: 0.55em;
+        align-items: center;
+        background-color: var(--third);
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        background-color: #EFEDE1;
+    }
+
+    .first-level {
+        font-family: var(--font-titles);
+        font-size: 1.125rem;
+        line-height: 2rem;
+        text-transform: none;
+        font-weight: bold;
+    }
+
+    .sub-level {
+        font-size: 0.875rem;
+        line-height: 1.4375rem;
+    }
+
+    .action {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .price{
+        font-family: var(--font-titles);
+        font-size: 1.875rem;
+        line-height: 2.3125rem;
+        font-weight: bold;
+    }
+
+}
