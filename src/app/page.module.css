@@ -1,0 +1,14 @@
+.mod-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:50px 0;
+}
+
+
+@media screen and (max-width:1023px) {
+    .mod-intro {
+        padding:0;
+    }
+}

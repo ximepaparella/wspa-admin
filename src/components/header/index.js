@@ -5,8 +5,8 @@ import React from "react";
 import styles from "./header.module.scss";
 
 //import components
-import Logo from "../logo/index";
-import Menu from "../menu/index";
+import Logo from "../Logo/index";
+import Menu from "../Menu/index";
 
 //create header component
 const Header = () => {
