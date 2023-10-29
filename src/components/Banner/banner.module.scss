@@ -1,0 +1,19 @@
+.banner {
+    margin-top: -80px;
+    height: 450px;
+    background-size: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+}
+
+.title {
+    padding-top: 1.25em;
+    color: var(--white);
+    font-size: 3.125rem;
+    font-family: var(--font-titles);
+    font-weight: bold;
+    text-transform: uppercase;
+}

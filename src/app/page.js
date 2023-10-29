@@ -76,7 +76,7 @@ export default function Home() {
 
       <section className={styles["mod-section"]}>
         <div className="lay">
-          <Title title="CONTACTANOS" pretitle="¿Tenés alguna duda?" />
+          <Title title="CONTACTANOS" pretitle="¿TENÉS ALGUNA DUDA?" />
         </div>
 
         <div className="row no-gap">

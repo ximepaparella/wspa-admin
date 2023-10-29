@@ -44,7 +44,7 @@ const SpaDayCard = ({
         <Image
           className={styles.image}
           src={floresDelta}
-          height={450}
+          height={400}
           alt="SAN VALENTÍN EN WSPA ESCAPADA EN PAREJA"
         />
       </div>
@@ -68,7 +68,7 @@ const SpaDayCard = ({
             ))}
           </ul>
         </div>
-        <div className={styles.actions} >
+        <div className={styles.actions}>
           <h5 className={styles.price}>$321321{priceOnly}</h5>
           <Button giftVoucherOnlyId="55" text="COMPRÁ ONLINE" target="_blank" />
         </div>
