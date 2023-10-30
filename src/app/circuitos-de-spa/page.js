@@ -1,4 +1,3 @@
-import styles from "../page.module.css";
 import Banner from "@/components/Banner";
 import bannerImage from "../../assets/images/bg-circuitos.jpg";
 import giftBannerImage from "../../assets/images/call-to-action/gift.jpg";
