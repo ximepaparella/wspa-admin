@@ -393,3 +393,7 @@ ul {
 .right {
   text-align: right;
 }
+
+.container {
+  padding:50px 0;
+}

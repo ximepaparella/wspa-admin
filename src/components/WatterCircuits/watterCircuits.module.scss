@@ -1,0 +1,22 @@
+.watter-circuits {
+    display: grid;
+    flex-direction: row;
+    background-color:var(--third);
+    width:100%;
+    padding:32px 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    div {
+        padding:0 16px;
+    }
+
+}
+
+.hlp-border-left-before:before {
+    border-left: 1px solid #CBC9BE;
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+}
