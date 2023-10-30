@@ -158,6 +158,8 @@ a {
 }
 
 
+
+
 .container-full-width {
     padding-left: 0;
     padding-right: 0;
@@ -386,4 +388,8 @@ a {
 
 ul {
   list-style-type: none;
+}
+
+.right {
+  text-align: right;
 }
