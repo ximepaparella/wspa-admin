@@ -1,12 +1,12 @@
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import React from "react";
 
-const Treatments = () => {
+const Policies = () => {
   return (
     <DashboardLayout>
-      <div>tratamientos</div>
+      <div>Policies</div>
     </DashboardLayout>
   );
 };
 
-export default Treatments;
+export default Policies;
