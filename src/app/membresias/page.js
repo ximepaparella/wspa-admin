@@ -4,10 +4,11 @@ import giftBannerImage from "../../assets/images/call-to-action/gift.jpg";
 import WatterCircuits from "@/components/WatterCircuits";
 import SpaDayCard from "@/components/SpaDayCard";
 import GiftBanner from "@/components/GiftBanner";
+import SiteLayout from "@/components/Layouts/SiteLayout";
 
 export default function Membresias() {
   return (
-    <main>
+    <SiteLayout>
       <Banner title="MEMBRESIAS" image={bannerImage.src} />
       <section className="container">
         <div className="lay">
@@ -25,6 +26,7 @@ export default function Membresias() {
         buttonText="REGALÁ ONLINE"
       />
       </section>
-    </main>
+
+    </SiteLayout>
   );
 }

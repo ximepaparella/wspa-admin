@@ -5,10 +5,11 @@ import giftBannerImage from "../../assets/images/call-to-action/gift.jpg";
 import Map from "@/components/Map";
 import Title from "@/components/Title";
 import GiftBanner from "@/components/GiftBanner";
+import SiteLayout from "@/components/Layouts/SiteLayout";
 
 export default function Terms() {
   return (
-    <main>
+    <SiteLayout>
       <Banner title="CONTACTO" image={bannerImage.src} />
 
       <Map />
@@ -99,6 +100,6 @@ export default function Terms() {
         preTitle="PAQUETES PROMOCIONALES"
         buttonText="REGALÁ ONLINE"
       />
-    </main>
+    </SiteLayout>
   );
 }

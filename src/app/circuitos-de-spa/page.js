@@ -2,9 +2,11 @@ import Banner from "@/components/Banner";
 import bannerImage from "../../assets/images/bg-circuitos.jpg";
 import giftBannerImage from "../../assets/images/call-to-action/gift.jpg";
 import GiftBanner from "@/components/GiftBanner";
+import SiteLayout from "@/components/Layouts/SiteLayout";
 
 export default function CircuitosDeSpa() {
   return (
+    <SiteLayout>
     <main>
       <Banner title="CIRCUITOS DE SPA" image={bannerImage.src} />
       <section className="container">
@@ -19,5 +21,6 @@ export default function CircuitosDeSpa() {
         />
       </section>
     </main>
+    </SiteLayout>
   );
 }

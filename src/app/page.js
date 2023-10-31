@@ -2,12 +2,13 @@ import styles from "./page.module.css";
 import Title from "@/components/Title";
 import Masonry from "@/components/Masonry";
 import IconText from "@/components/IconText";
-import Info from "@/components/Info";
 import SpaDayCard from "@/components/SpaDayCard";
 import Map from "@/components/Map";
+import SiteLayout from "@/components/Layouts/SiteLayout";
 
 export default function Home() {
   return (
+    <SiteLayout>
     <main>
       {/* Slider /> */}
       <section className={styles["mod-section"]}>
@@ -84,5 +85,6 @@ export default function Home() {
       </section>
 
     </main>
+    </SiteLayout>
   );
 }

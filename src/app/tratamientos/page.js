@@ -2,10 +2,11 @@ import Banner from "@/components/Banner";
 import bannerImage from "../../assets/images/bg-tratamientos-2.jpg";
 import giftBannerImage from "../../assets/images/call-to-action/gift.jpg";
 import GiftBanner from "@/components/GiftBanner";
+import SiteLayout from "@/components/Layouts/SiteLayout";
 
 export default function Tratamientos() {
   return (
-    <main>
+    <SiteLayout>
       <Banner title="TRATAMIENTOS" image={bannerImage.src} />
       <section className="container">
         <div className="lay">Tratamientos</div>
@@ -18,6 +19,6 @@ export default function Tratamientos() {
           buttonText="REGALÁ ONLINE"
         />
       </section>
-    </main>
+   </SiteLayout>
   );
 }
