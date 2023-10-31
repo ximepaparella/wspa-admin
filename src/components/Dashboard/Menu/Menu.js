@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import styles from './menu.module.scss';
 
 const { SubMenu } = Menu;
 
@@ -84,6 +85,8 @@ const App = () => {
       onOpenChange={onOpenChange}
       style={{
         width: 256,
+        paddingTop: '1.5rem',
+        paddingBottom: '1.5rem',
       }}
     >
       {items.map((item) => (

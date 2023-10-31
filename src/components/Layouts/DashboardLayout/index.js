@@ -4,21 +4,24 @@ import "../../../app/globals.css";
 import "../../../app/grid.css";
 import Menu from "@/components/Dashboard/Menu/Menu";
 import { Col, Row } from "antd";
+import DashboardFooter from "@/components/Dashboard/Footer";
+import DashboardHeader from "@/components/Dashboard/Header";
+import styles from "./dashboard-layout.module.scss";
 
 export default function DashboardLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <header>Header</header>
+      <body className={styles.dashboard}>
+        <DashboardHeader />
         <main>
           <Row>
             <Col span={4}>
               <Menu />
             </Col>
-            <Col span={12}> {children}</Col>
+            <Col span={12} className={styles.container}> {children}</Col>
           </Row>
         </main>
-        <footer>Footer</footer>
+        <DashboardFooter />
       </body>
     </html>
   );
