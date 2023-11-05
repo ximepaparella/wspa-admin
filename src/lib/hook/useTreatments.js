@@ -1,6 +1,6 @@
-    // useTreatmentData.js
-import { useState, useEffect } from 'react';
-import { Space, Tag } from 'antd';
+// useTreatmentData.js
+import { useState, useEffect } from "react";
+import { Space, Tag } from "antd";
 
 const useTreatmentData = () => {
   const [treatments, setTreatments] = useState([]);
@@ -8,62 +8,55 @@ const useTreatmentData = () => {
 
   useEffect(() => {
     // Fetch treatment data from the API
-    fetch(`${process.env.API_URL}/treatments`)
+    console.log(`Full API URL: ${process.env.NEXT_PUBLIC_API_URL}/treatments`);
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/treatments`)
       .then((response) => response.json())
       .then((data) => {
         setTreatments(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching treatment data:', error);
+        console.error("Error fetching treatment data:", error);
         setLoading(false);
       });
   }, []);
 
   const columns = [
     {
-      title: "Name",
+      title: "Tratamiento",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Precio",
+      dataIndex: "price",
+      key: "price",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Precio Oferta",
+      dataIndex: "salePrice",
+      key: "salePrice",
     },
     {
-      title: "Tags",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
+      title: "Categoría",
+      key: "category",
+      dataIndex: "category",
+      render: (_, { category }) => (
         <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
+          <Tag color="green" key={category}>
+            {category.toUpperCase()}
+          </Tag>
         </>
       ),
     },
     {
-      title: "Action",
+      title: "Acciones",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <a>Editar</a>
+          <a>Eliminar</a>
         </Space>
       ),
     },
