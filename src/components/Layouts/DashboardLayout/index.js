@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
             <Col span={4}>
               <Menu />
             </Col>
-            <Col span={12} className={styles.container}> {children}</Col>
+            <Col span={18} className={styles.container}> {children}</Col>
           </Row>
         </main>
         <DashboardFooter />

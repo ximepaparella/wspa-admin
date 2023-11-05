@@ -80,6 +80,7 @@ const App = () => {
 
   return (
     <Menu
+      className={styles.menu}
       mode="inline"
       openKeys={openKeys}
       onOpenChange={onOpenChange}
