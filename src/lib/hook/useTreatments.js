@@ -8,7 +8,6 @@ const useTreatmentData = () => {
 
   useEffect(() => {
     // Fetch treatment data from the API
-    console.log(`Full API URL: ${process.env.NEXT_PUBLIC_API_URL}/treatments`);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/treatments`)
       .then((response) => response.json())
       .then((data) => {
@@ -55,7 +54,7 @@ const useTreatmentData = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>Editar</a>
+          <a href="/dashboard/treatments/edit/">Editar</a>
           <a>Eliminar</a>
         </Space>
       ),
