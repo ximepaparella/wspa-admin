@@ -3,9 +3,7 @@ import React from "react";
 
 const Policies = () => {
   return (
-    <DashboardLayout>
       <div>Policies</div>
-    </DashboardLayout>
   );
 };
 

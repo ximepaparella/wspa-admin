@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useState } from "react";
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import useManageTreatments from "@/lib/hook/useManageTreatments";
 import styles from "../../../page.module.scss";
 import { notification } from "antd";
@@ -69,7 +68,7 @@ const CreateTreatment = () => {
   };
 
   return (
-    <DashboardLayout>
+  <>
       <Breadcrumb
         items={[
           {
@@ -247,7 +246,7 @@ const CreateTreatment = () => {
           </Form>
         </div>
       </section>
-    </DashboardLayout>
+    </>
   );
 };
 

@@ -1,24 +1,77 @@
 "use client";
-import React from "react";
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
-import styles from "../../../page.module.scss";
-import { Breadcrumb, Input, Form, Row, Col, Button, Select, InputNumber, Divider, Typography } from "antd";
+import React, { useState, useEffect } from "react";
+import useManageTreatments from "@/lib/hook/useManageTreatments";
+import styles from "../../../../page.module.scss";
+import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import {
+  notification,
+  Form,
+  Input,
+  Button,
+  Select,
+  InputNumber,
+  Breadcrumb,
+  Typography,
+  Divider,
+  Col,
+  Row,
+} from "antd";
 
 const EditTreatment = () => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { updateTreatment } = useManageTreatments();
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { id } = router.query;
+    console.log("ID", id);
+    const fetchTreatmentData = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/treatments/${id}`
+      );
+      const treatmentData = await response.json();
+      form.setFieldsValue(treatmentData);
+    };
+
+    if (id) fetchTreatmentData();
+  }, [router.isReady, router.query.id, form, router.query]);
+
+  const onFinish = async (values) => {
+    setIsSubmitting(true);
+    try {
+      await updateTreatment(router.query.id, values);
+      notification.success({
+        message: "Success",
+        description: "Tratamiento actualizado con éxito.",
+        placement: "topRight",
+      });
+      // Optionally navigate back to the treatments list
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Error al actualizar el tratamiento.",
+        placement: "topRight",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    notification.error({
+      message: "Error",
+      description:
+        "Hubo un error al enviar el formulario. Por favor revise los campos e intente nuevamente.",
+      placement: "topRight",
+    });
+  };
 
   return (
-    <DashboardLayout>
+    <div>
       <Breadcrumb
         items={[
           {
@@ -28,15 +81,18 @@ const EditTreatment = () => {
             title: <a href="/dahsboard/treatments">Tratamientos</a>,
           },
           {
-            title: <a href="/">Crear nuevo</a>,
+            title: <a href="/">Editar tratamiento</a>,
           },
         ]}
       />
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-        <Title level={2} >Tratamientos</Title>
-          <Text>Crea un tratamiento nuevo, el mismo será visible en la plataforma en la sección Tratamientos</Text>
+          <Title level={2}>Editar Tratamiento:</Title>
+          <Text>
+            Realizá los cambios necesarios y hace click en el botón guardar para
+            editar el tratamiento.
+          </Text>
           <Divider />
         </div>
         <div className={styles["dashboard-content"]}>
@@ -78,7 +134,11 @@ const EditTreatment = () => {
                     },
                   ]}
                 >
-                  <Input size="middle" placeholder="50'" />
+                  <InputNumber
+                    style={{ width: "100%" }}
+                    size="middle"
+                    placeholder="50'"
+                  />
                 </Form.Item>
               </Col>
               <Col span={12}>
@@ -95,7 +155,7 @@ const EditTreatment = () => {
                   <InputNumber
                     size="middle"
                     addonBefore="$"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     placeholder="$23000"
                   />
                 </Form.Item>
@@ -105,7 +165,7 @@ const EditTreatment = () => {
                   <InputNumber
                     size="middle"
                     addonBefore="$"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     placeholder="$20000"
                   />
                 </Form.Item>
@@ -137,7 +197,16 @@ const EditTreatment = () => {
               </Col>
 
               <Col span={12}>
-                <Form.Item label="Categoría" name="category">
+                <Form.Item
+                  label="Categoría"
+                  name="category"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Seleccione una categoría",
+                    },
+                  ]}
+                >
                   <Select
                     size="middle"
                     options={[
@@ -171,16 +240,17 @@ const EditTreatment = () => {
                   />
                 </Form.Item>
               </Col>
-              <Button type="primary" htmlType="submit">
-                Añadir tratamiento
-              </Button>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" loading={isSubmitting}>
+                  Añadir tratamiento
+                </Button>
+              </Form.Item>
             </Row>
           </Form>
         </div>
       </section>
-    </DashboardLayout>
+    </div>
   );
 };
 
-
-export default EditTreatment
+export default EditTreatment;

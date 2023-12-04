@@ -5,5 +5,4 @@ const Memberships = () => {
     <div>Memberships</div>
   )
 }
-vr
 export default Memberships

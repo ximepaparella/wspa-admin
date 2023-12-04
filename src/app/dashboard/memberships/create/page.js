@@ -1,12 +1,7 @@
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import React from "react";
 
 const CreateMembership = () => {
-  return (
-    <DashboardLayout>
-      <div>Create membership</div>
-    </DashboardLayout>
-  );
+  return <div>Create membership</div>;
 };
 
 export default CreateMembership;

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Table, Breadcrumb } from "antd";
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import styles from "../../page.module.scss";
 import useTreatmentData from "@/lib/hook/useTreatments";
 
@@ -10,7 +9,7 @@ import useTreatmentData from "@/lib/hook/useTreatments";
 const Treatments = () => {
   const { treatments, columns, loading } = useTreatmentData(); // Use the custom hook to fetch data
   return (
-    <DashboardLayout>
+    <>
       <Breadcrumb
         items={[
           {
@@ -37,7 +36,7 @@ const Treatments = () => {
           />
         </div>
       </section>
-    </DashboardLayout>
+    </>
   );
 };
 

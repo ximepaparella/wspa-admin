@@ -1,7 +1,5 @@
 // components/DashboardLayout.js
 import React from "react";
-import "../../../app/globals.css";
-import "../../../app/grid.css";
 import Menu from "@/components/Dashboard/Menu/Menu";
 import { Col, Row } from "antd";
 import DashboardFooter from "@/components/Dashboard/Footer";

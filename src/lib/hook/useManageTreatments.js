@@ -39,7 +39,27 @@ const useManageTreatments = () => {
   };
 
   const updateTreatment = async (id, treatmentData) => {
-  //Update
+    try {
+      const response = await fetch(`${apiURL}/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(treatmentData),
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      notification.success({
+        message: 'Success',
+        description: 'Tratamiento actualizado correctamente',
+        placement: 'topRight',
+      });
+      return response.json();
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: error.toString(),
+        placement: 'topRight',
+      });
+      console.error('Hubo un error al actualizar el tratamiento:', error);
+    }
   };
 
   const deleteTreatment = async (id) => {

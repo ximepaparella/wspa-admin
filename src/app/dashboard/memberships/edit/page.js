@@ -3,9 +3,7 @@ import React from "react";
 
 const EditMembership = () => {
   return (
-    <DashboardLayout>
       <div>Edit Membership</div>
-    </DashboardLayout>
   );
 };
 
