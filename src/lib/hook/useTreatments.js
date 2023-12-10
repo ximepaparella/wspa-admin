@@ -1,31 +1,29 @@
 // useTreatmentData.js
 import { useState, useEffect } from "react";
-import { Space, Tag } from "antd";
+import { Space, Tag, Popconfirm, message} from "antd";
+import useManageTreatments from "./useManageTreatments";
+import Link from "next/link";
 
 const useTreatmentData = () => {
   const [treatments, setTreatments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { getAllTreatments, deleteTreatment } = useManageTreatments();
 
   useEffect(() => {
-    // Fetch treatment data from the API
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/treatments`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTreatments(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching treatment data:", error);
-        setLoading(false);
-      });
-  }, []);
+    const fetchTreatments = async () => {
+      const treatments = await getAllTreatments();
+      setTreatments(treatments);
+      setLoading(false);
+    };
+    fetchTreatments();
+  }, [getAllTreatments]);
 
   const columns = [
     {
       title: "Tratamiento",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => <Link href={`/dashboard/treatments/edit/${record.id}`}>{text}</Link>,
     },
     {
       title: "Precio",
@@ -54,8 +52,18 @@ const useTreatmentData = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a href="/dashboard/treatments/edit/">Editar</a>
-          <a>Eliminar</a>
+          <Link href={`/dashboard/treatments/edit/${record.id}`}>
+            Editar
+          </Link>
+          <Popconfirm
+            title="¿Estás seguro que deseas eliminar este tratamiento?"
+            onConfirm={() => deleteTreatment(record.id)}
+            onCancel={() => message.info("Cancelado")}
+            okText="Eliminar"
+            cancelText="Cancelar"
+          >
+            <a href="#">Eliminar</a>
+          </Popconfirm>
         </Space>
       ),
     },

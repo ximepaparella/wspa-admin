@@ -92,7 +92,17 @@ const useManageTreatments = () => {
     }
   };
 
-  return { createTreatment, updateTreatment, deleteTreatment, getTreatment };
+  const getAllTreatments = async () => {
+    try {
+      const response = await fetch(apiURL);
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    } catch (error) {
+      console.error("Hubo un error al obtener los tratamientos:", error);
+    }
+  };
+
+  return { createTreatment, updateTreatment, deleteTreatment, getTreatment, getAllTreatments };
 };
 
 export default useManageTreatments;
