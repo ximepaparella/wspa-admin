@@ -7,6 +7,8 @@ import React from "react";
 import styles from "./menu.module.scss";
 import menuData from "../../data/menuData";
 
+import Link from "next/link";
+
 console.log('menuData', menuData);
 
 // Create menu component
@@ -20,9 +22,9 @@ const Menu = () => {
       
       <nav className={styles["mod-menu"]}>
           {menuData?.map((item, index) => (
-           <a className="active" key={index} href={item.url}>
+           <Link className="active" key={index} href={item.url}>
              {item.text}
-           </a>
+           </Link>
           ))}
       </nav>
     </>

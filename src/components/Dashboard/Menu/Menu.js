@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import styles from './menu.module.scss';
+import styles from './menu.module.scss'
+import Link from 'next/link';
 
 const { SubMenu } = Menu;
 
@@ -95,13 +96,13 @@ const App = () => {
           <SubMenu key={item.key} icon={item.icon} title={item.label}>
             {item.items.map((item) => (
               <Menu.Item key={item.key}>
-                <a href={item.to}>{item.label}</a>
+                <Link href={item.to}>{item.label}</Link>
               </Menu.Item>
             ))}
           </SubMenu>
         ) : (
           <Menu.Item key={item.key}>
-            <a href={item.to}>{item.label}</a>
+            <Link href={item.to}>{item.label}</Link>
           </Menu.Item>
         )
       ))}

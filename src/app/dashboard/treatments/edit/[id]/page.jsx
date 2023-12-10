@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import useManageTreatments from "@/lib/hook/useManageTreatments";
 import styles from "../../../../page.module.scss";
 import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
@@ -17,48 +17,29 @@ import {
   Row,
 } from "antd";
 
-const EditTreatment = () => {
+export default function EditTreatment ({params}) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { updateTreatment } = useManageTreatments();
+  const { updateTreatment, getTreatment } = useManageTreatments();
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
   useEffect(() => {
-    if (!router.isReady) return;
-    const { id } = router.query;
-    console.log("ID", id);
-    const fetchTreatmentData = async () => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/treatments/${id}`
-      );
-      const treatmentData = await response.json();
-      form.setFieldsValue(treatmentData);
-    };
+    if (params.id) {
+      const fetchTreatment = async () => {
+        const treatment = await getTreatment(params.id);
+        form.setFieldsValue(treatment);
+      };
+      fetchTreatment();
+    }
+  }, [params.id]);
 
-    if (id) fetchTreatmentData();
-  }, [router.isReady, router.query.id, form, router.query]);
 
   const onFinish = async (values) => {
     setIsSubmitting(true);
-    try {
-      await updateTreatment(router.query.id, values);
-      notification.success({
-        message: "Success",
-        description: "Tratamiento actualizado con éxito.",
-        placement: "topRight",
-      });
-      // Optionally navigate back to the treatments list
-    } catch (error) {
-      notification.error({
-        message: "Error",
-        description: "Error al actualizar el tratamiento.",
-        placement: "topRight",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    const treatment = await updateTreatment(params.id, values);
+    setIsSubmitting(false);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -242,7 +223,7 @@ const EditTreatment = () => {
               </Col>
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={isSubmitting}>
-                  Añadir tratamiento
+                  Actualizar tratamiento
                 </Button>
               </Form.Item>
             </Row>
@@ -253,4 +234,4 @@ const EditTreatment = () => {
   );
 };
 
-export default EditTreatment;
+
