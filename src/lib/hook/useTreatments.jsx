@@ -1,4 +1,3 @@
-// useTreatmentData.js
 import { useState, useEffect } from "react";
 import { Space, Tag, Popconfirm, message} from "antd";
 import useManageTreatments from "./useManageTreatments";

@@ -94,9 +94,9 @@ const App = () => {
       {items.map((item) => (
         item.items ? (
           <SubMenu key={item.key} icon={item.icon} title={item.label}>
-            {item.items.map((item) => (
-              <Menu.Item key={item.key}>
-                <Link href={item.to}>{item.label}</Link>
+            {item.items.map((subItem) => ( // Use subItem instead of item for subitems
+              <Menu.Item key={subItem.key}>
+                <Link href={subItem.to}>{subItem.label}</Link>
               </Menu.Item>
             ))}
           </SubMenu>
