@@ -18,7 +18,6 @@ const useManageTreatments = () => {
       if (!response.ok)
         throw new Error(responseData.message || "Network response was not ok");
 
-      message.success("Treatment created successfully!");
       notification.success({
         message: "Success",
         description: "Tratamiento creado con éxito.",
@@ -38,17 +37,29 @@ const useManageTreatments = () => {
 
   const updateTreatment = async (id, treatmentData) => {
     try {
+      // Create a new object to hold only the fields that are provided
+      const requestBody = {};
+      if (typeof treatmentData.aditionals === 'string') {
+        requestBody.aditionals = treatmentData.aditionals;
+      }
+      if (typeof treatmentData.salePrice === 'number') {
+        requestBody.salePrice = treatmentData.salePrice;
+      }
+  
       const response = await fetch(`${apiURL}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(treatmentData),
+        body: JSON.stringify(requestBody),
       });
+  
       if (!response.ok) throw new Error("Network response was not ok");
+  
       notification.success({
         message: "Success",
         description: "Tratamiento actualizado correctamente",
         placement: "topRight",
       });
+  
       return response.json();
     } catch (error) {
       notification.error({
@@ -56,6 +67,7 @@ const useManageTreatments = () => {
         description: error.toString(),
         placement: "topRight",
       });
+  
       console.error("Hubo un error al actualizar el tratamiento:", error);
     }
   };
