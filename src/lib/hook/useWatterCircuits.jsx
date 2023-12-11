@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Space, Tag, Popconfirm, message} from "antd";
+import { Space, Popconfirm, message} from "antd";
 import useManageWatterCircuits from "./useManageWatterCircuits";
 import Link from "next/link";
 
@@ -10,12 +10,18 @@ const useWatterCircuitData = () => {
 
   useEffect(() => {
     const fetchWatterCircuits = async () => {
-      const watterCircuits = await getAllWatterCircuits();
-      setWatterCircuits(watterCircuits);
-      setLoading(false);
+      try {
+        const watterCircuitsData = await getAllWatterCircuits();
+        setWatterCircuits(watterCircuitsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching water circuits:", error);
+        setLoading(false);
+      }
     };
+
     fetchWatterCircuits();
-  }, [getAllWatterCircuits]);
+  }, []);
 
   const columns = [
     {

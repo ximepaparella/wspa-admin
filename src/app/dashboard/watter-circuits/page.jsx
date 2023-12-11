@@ -2,10 +2,10 @@
 import React from "react";
 import { Table, Breadcrumb } from "antd";
 import styles from "../../page.module.scss";  
-import useManageWatterCircuits from "@/lib/hook/useManageWatterCircuits";
+import useWatterCircuits from "@/lib/hook/useWatterCircuits";
 
 const WatterCircuits = () => {
-  const { watterCircuits, columns, loading } = useManageWatterCircuits(); // Use the custom hook to fetch data
+  const { watterCircuits, columns, loading } = useWatterCircuits(); // Use the custom hook to fetch data
   return (
     <>
       <Breadcrumb

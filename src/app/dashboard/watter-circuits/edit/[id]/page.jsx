@@ -1,61 +1,45 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import useManageWatterCircuits from "@/lib/hook/useManageWatterCircuits";
-import styles from "../../../page.module.scss";
-import { UploadOutlined } from "@ant-design/icons";
+import styles from "../../../../page.module.scss";
+import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
 import {
-  Breadcrumb,
-  Input,
+  notification,
   Form,
-  Row,
-  Col,
+  Input,
   Button,
   Select,
   InputNumber,
-  Divider,
+  Breadcrumb,
   Typography,
-  Upload,
-  message,
-  Checkbox,
+  Divider,
+  Col,
+  Row,
 } from "antd";
 
-const CreateWatterCircuit = () => {
+export default function EditWatterCircuit({ params }) {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the loading state
-  const { createWatterCircuit } = useManageWatterCircuits(); // Destructure the createWatterCircuit function from your hook
+  const { updateWatterCircuit, getWatterCircuit } = useManageWatterCircuits(); // Destructure the updateWatterCircuit function from your hook
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
-  const onFinish = async (values) => {
-    setIsSubmitting(true); // Indicate the start of form submission
-    try {
-      // Add the createdAt field with the current date/time to the values object
-      const valuesWithTimestamp = {
-        ...values,
-        createdAt: new Date().toISOString(), // Use ISO string format for the date
+
+  useEffect(() => {
+    if (params.id) {
+      const fetchWatterCircuit = async () => {
+        const treatment = await getWatterCircuit(params.id);
+        form.setFieldsValue(treatment);
       };
-
-      const result = await createWatterCircuit(valuesWithTimestamp);
-      // If the API call was successful, show a success notification
-      message.success({
-        message: "Success",
-        description: "Circuito de Agua creado con éxito.",
-        placement: "topRight",
-      });
-
-      form.resetFields(); // Resets the form fields after successful submission
-    } catch (error) {
-      // If there was an error, show a failure notification
-      message.error({
-        message: "Error",
-        description: "Error al crear el Circuito de Agua.",
-        placement: "topRight",
-      });
-      console.error("Error creating treatment:", error);
-    } finally {
-      setIsSubmitting(false); // Indicate the end of form submission
+      fetchWatterCircuit();
     }
+  }, [params.id]);
+
+  const onFinish = async (values) => {
+    setIsSubmitting(true);
+    const watterCircuit = await updateWatterCircuit(params.id, values);
+    setIsSubmitting(false);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -181,10 +165,7 @@ const CreateWatterCircuit = () => {
               </Col>
 
               <Col span={24}>
-                <Form.Item
-                  name="times"
-                  label="Horarios"
-                >
+                <Form.Item name="times" label="Horarios">
                   <Input
                     size="middle"
                     placeholder="MARTES DE 11 A 20HS. MIÉRCOLES A DOMINGOS INCLUSIVE DE 10 A 21HS."
@@ -200,7 +181,7 @@ const CreateWatterCircuit = () => {
 
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={isSubmitting}>
-                  Añadir circuito de Agua
+                  Guardar circuito de Agua
                 </Button>
               </Form.Item>
             </Row>
@@ -209,6 +190,4 @@ const CreateWatterCircuit = () => {
       </section>
     </>
   );
-};
-
-export default CreateWatterCircuit;
+}

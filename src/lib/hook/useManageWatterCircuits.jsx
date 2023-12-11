@@ -37,6 +37,14 @@ const useManageWatterCircuits = () => {
 
   const updateWatterCircuit = async (id, watterCircuitData) => {
     try {
+      // Create a new object to hold only the fields that are provided
+      const requestBody = {};
+      if (typeof watterCircuitData.aditionals === 'string') {
+        requestBody.aditionals = watterCircuitData.aditionals;
+      }
+      if (typeof watterCircuitData.salePrice === 'number') {
+        requestBody.salePrice = watterCircuitData.salePrice;
+      }
   
       const response = await fetch(`${apiURL}/${id}`, {
         method: "PATCH",
@@ -60,7 +68,7 @@ const useManageWatterCircuits = () => {
         placement: "topRight",
       });
   
-      console.error("Hubo un error al actualizar el Circuito de Agua:", error);
+      console.error("Hubo un error al actualizar el circuito de Agua:", error);
     }
   };
 
