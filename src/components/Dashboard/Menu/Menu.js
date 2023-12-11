@@ -57,10 +57,19 @@ const items = [
   {
     key: 'sub5',
     icon: <SettingOutlined />,
+    label: 'Usuarios',
+    items: [
+      { key: '9', label: 'Ver todos', to: '/dashboard/users' },
+      { key: '10', label: 'Añadir nuevo', to: '/dashboard/users/create' },
+    ],
+  },
+  {
+    key: 'sub6',
+    icon: <SettingOutlined />,
     label: 'Configuraciones',
     items: [
-      { key: '9', label: 'Información General', to: '/dashboard/settings/' },
-      { key: '10', label: 'Politicas', to: '/dashboard/policies' },
+      { key: '11', label: 'Información General', to: '/dashboard/settings/' },
+      { key: '12', label: 'Politicas', to: '/dashboard/policies' },
     ],
   },
 ];
