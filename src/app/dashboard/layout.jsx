@@ -5,6 +5,7 @@ import { Col, Row } from "antd";
 import DashboardFooter from "@/components/Dashboard/Footer";
 import DashboardHeader from "@/components/Dashboard/Header";
 import styles from "./dashboard-layout.module.scss";
+import "../globals.css";
 
 export default function DashboardLayout({ children }) {
   return (
