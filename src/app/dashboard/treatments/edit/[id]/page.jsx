@@ -2,7 +2,7 @@
 import React, { useState, useEffect, use } from "react";
 import useManageTreatments from "@/lib/hook/useManageTreatments";
 import styles from "../../../../page.module.scss";
-import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import { useRouter } from "next/navigation"; 
 import {
   notification,
   Form,

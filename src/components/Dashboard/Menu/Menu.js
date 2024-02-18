@@ -68,8 +68,7 @@ const items = [
     icon: <SettingOutlined />,
     label: 'Configuraciones',
     items: [
-      { key: '11', label: 'Información General', to: '/dashboard/settings/' },
-      { key: '12', label: 'Politicas', to: '/dashboard/policies' },
+      { key: '11', label: 'Información General', to: '/dashboard/settings/3' },
     ],
   },
 ];
