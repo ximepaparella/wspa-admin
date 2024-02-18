@@ -2,7 +2,7 @@
 import React from "react";
 import { Table, Breadcrumb } from "antd";
 import styles from "../../page.module.scss";
-import useUsers from "@/lib/hook/useTreatments";
+import useUsers from "@/lib/hook/useUsers";
 
 
 const Users = () => {

@@ -23,7 +23,7 @@ const useSpaDays = () => {
       dataIndex: "name",
       key: "name",
       render: (text, record) => (
-        <Link href={`/dashboard/spadays/edit/${record.id}`}>{text}</Link>
+        <Link href={`/dashboard/spa-days/edit/${record.id}`}>{text}</Link>
       ),
     },
     {
@@ -42,7 +42,7 @@ const useSpaDays = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link href={`/dashboard/spadays/edit/${record.id}`}>Editar</Link>
+          <Link href={`/dashboard/spa-days/edit/${record.id}`}>Editar</Link>
           <Popconfirm
             title="¿Estás seguro que deseas eliminar este tratamiento?"
             onConfirm={() => deleteSpaDay(record.id)}
