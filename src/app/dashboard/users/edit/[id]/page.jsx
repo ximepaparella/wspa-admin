@@ -160,7 +160,7 @@ export default function EditUsers ({params}) {
 
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={isSubmitting}>
-                Añadir usuario
+                Guardar
               </Button>
             </Form.Item>
           </Row>
