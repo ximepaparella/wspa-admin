@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import { Table, Breadcrumb } from "antd";
+import { Table, Breadcrumb, Typography } from "antd";
 import styles from "../../page.module.scss";
 import useMemberships from "@/lib/hook/useMemberships";
+const { Title } = Typography;
 
 const Memberships = () => {
   const { memberships, columns, loading } = useMemberships(); // Use the custom hook to fetch data
@@ -24,7 +25,7 @@ const Memberships = () => {
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <h1>Membresías</h1>
+        <Title level={2}>Membresías</Title>
         </div>
         <div className={styles["dashboard-content"]}>
           <Table

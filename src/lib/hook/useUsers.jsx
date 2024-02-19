@@ -52,7 +52,7 @@ const useUsers = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link href={`/dashboard/watter-circuits/edit/${record.id}`}>
+          <Link href={`/dashboard/users/edit/${record.id}`}>
             Editar
           </Link>
           <Popconfirm

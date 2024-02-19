@@ -72,10 +72,10 @@ export default function Settings({ params }) {
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <Title level={2}>Editar Información general:</Title>
+          <Title level={2}>Información general</Title>
           <Text>
             Realizá los cambios necesarios y hace click en el botón guardar para
-            editar el tratamiento.
+            editar la información del sitio.
           </Text>
           <Divider />
         </div>

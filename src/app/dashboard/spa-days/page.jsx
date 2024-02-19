@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import { Table, Breadcrumb } from "antd";
+import { Table, Breadcrumb, Typography } from "antd";
 import styles from "../../page.module.scss";
 import useSpaDays from "@/lib/hook/useSpaDays";
+const { Title } = Typography;
 
 const SpaDays = () => {
   const { spaDays, columns, loading } = useSpaDays(); // Use the custom hook to fetch data
@@ -24,7 +25,7 @@ const SpaDays = () => {
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <h1>Días de Spa</h1>
+        <Title level={2}>Tratamientos</Title>
         </div>
         <div className={styles["dashboard-content"]}>
           <Table
