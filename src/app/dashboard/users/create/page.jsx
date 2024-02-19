@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import useManageUsers from "@/lib/hook/useManageUsers";
 import styles from "../../../page.module.scss";
-import { UploadOutlined } from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
   Breadcrumb,
   Input,
@@ -12,16 +12,14 @@ import {
   Col,
   Button,
   Select,
-  InputNumber,
   Divider,
   Typography,
-  Upload,
-  message,
-  Checkbox,
+  notification
 } from "antd";
 
 const CreateUsers = () => {
   const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the loading state
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
   const { createUser } = useManageUsers(); // Destructure the useUsers function from your hook
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -39,7 +37,7 @@ const CreateUsers = () => {
       const result = await createUser(valuesWithTimestamp);
       // If the API call was successful, show a success notification
       notification.success({
-        message: "Success",
+        message: "Usuario creado",
         description: "Usuario creado con éxito.",
         placement: "topRight",
       });
@@ -47,12 +45,11 @@ const CreateUsers = () => {
       form.resetFields(); // Resets the form fields after successful submission
     } catch (error) {
       // If there was an error, show a failure notification
-      notification.error({
-        message: "Error",
-        description: "Error al crear el usuario.",
+      notification.success({
+        message: "No se pudo crear el usuario",
+        description: "Verifique los datos ingresados",
         placement: "topRight",
       });
-      console.error("Error creating user:", error);
     } finally {
       setIsSubmitting(false); // Indicate the end of form submission
     }
@@ -61,194 +58,138 @@ const CreateUsers = () => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
     // Show error notification
-    notification.error({
-      message: "Error",
-      description:
-        "Hubo un error al enviar el formulario. Por favor revise los campos e intente nuevamente.",
+    notification.success({
+      message: "No se pudo crear el usuario",
+      description: "Verifique los datos ingresados",
       placement: "topRight",
     });
   };
-  
+
   return (
     <>
-        <Breadcrumb
-          items={[
-            {
-              title: "Wspa Dashboard",
-            },
-            {
-              title: <a href="/dahsboard/users">Usuarios</a>,
-            },
-            {
-              title: <a href="/">Crear nuevo</a>,
-            },
-          ]}
-        />
-  
-        <section className={styles["dashboard-container"]}>
-          <div className={styles["dashboard-title"]}>
-            <Title level={2}>Usuarios</Title>
-            <Text>
-              Crea un usuario nuevo, el mismo tendrá los permisos en la plataforma según el rol que se le asigne.
-            </Text>
-            <Divider />
-          </div>
-          <div className={styles["dashboard-content"]}>
-            <Form
-              name="treatments"
-              form={form}
-              layout="vertical"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Row gutter={[16, 0]}>
-                <Col span={12}>
-                  <Form.Item
-                    name="name"
-                    label="Nombre del tratamiento"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Ingrese el nombre del tratamiento",
-                      },
-                    ]}
-                  >
-                    <Input
-                      size="middle"
-                      styles={{ width: "100%" }}
-                      placeholder="Shock de hidratación"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    name="duration"
-                    label="Duración"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Ingrese la duración del tratamiento",
-                      },
-                    ]}
-                  >
-                    <InputNumber
-                      style={{ width: "100%" }}
-                      size="middle"
-                      placeholder="50'"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    name="price"
-                    label="Precio"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Ingrese el precio del tratamiento",
-                      },
-                    ]}
-                  >
-                    <InputNumber
-                      size="middle"
-                      addonBefore="$"
-                      style={{ width: "100%" }}
-                      placeholder="$23000"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item name="salePrice" label="Precio Oferta">
-                    <InputNumber
-                      size="middle"
-                      addonBefore="$"
-                      style={{ width: "100%" }}
-                      placeholder="$20000"
-                    />
-                  </Form.Item>
-                </Col>
-  
-                <Col span={12}>
-                  <Form.Item name="giftLinkId" label="Gift & Voucher ID">
-                    <Input
-                      size="middle"
-                      addonBefore="http://wyndhamnordelta.giftsandvouchers.com/?seccion=detalles&id="
-                      placeholder="32"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Ingrese el nombre ID",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-  
-                <Col span={12}>
-                  <Form.Item label="Adicionales" name="aditionals">
-                    <Input
-                      size="middle"
-                      placeholder="Ej: + Infusión + Pastereria"
-                    />
-                  </Form.Item>
-                </Col>
-  
-                <Col span={12}>
-                  <Form.Item
-                    label="Categoría"
-                    name="category"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Seleccione una categoría",
-                      },
-                    ]}
-                  >
-                    <Select
-                      size="middle"
-                      options={[
-                        {
-                          value: "Tratamientos Faciales",
-                          label: "Tratamientos Faciales",
-                        },
-                        {
-                          value: "Tratamientos Corporales",
-                          label: "Tratamientos Corporales",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                </Col>
-  
-                <Col span={24}>
-                  <Form.Item
-                    name="description"
-                    label="Descripción"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Ingrese la descripción del tratamiento",
-                      },
-                    ]}
-                  >
-                    <TextArea
-                      size="middle"
-                      placeholder="Nuestro completo tratamiento de hidratación facial ayuda..."
-                    />
-                  </Form.Item>
-                </Col>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={isSubmitting}>
-                    Añadir tratamiento
-                  </Button>
-                </Form.Item>
-              </Row>
-            </Form>
-          </div>
-        </section>
-      </>
-    );
-}
+      <Breadcrumb
+        items={[
+          {
+            title: "Wspa Dashboard",
+          },
+          {
+            title: <a href="/dahsboard/users">Usuarios</a>,
+          },
+          {
+            title: <a href="/">Crear nuevo</a>,
+          },
+        ]}
+      />
 
-export default CreateUsers
+      <section className={styles["dashboard-container"]}>
+        <div className={styles["dashboard-title"]}>
+          <Title level={2}>Usuarios</Title>
+          <Text>
+            Crea un usuario nuevo, el mismo tendrá los permisos en la plataforma
+            según el rol que se le asigne.
+          </Text>
+          <Divider />
+        </div>
+        <div className={styles["dashboard-content"]}>
+          <Form
+            name="treatments"
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Row gutter={[16, 0]}>
+              <Col span={12}>
+                <Form.Item
+                  name="name"
+                  label="Nombre del usuario"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Ingrese el nombre del usuario",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="middle"
+                    styles={{ width: "100%" }}
+                    placeholder="Juan Perez"
+                    autoComplete="off"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="password"
+                  label="Contraseña"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Ingrese la contraseña",
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    style={{ width: "100%" }}
+                    size="middle"
+                    placeholder="******"
+                    autoComplete="off"
+                    iconRender={(visible) =>
+                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="email"
+                  label="Correo electrónico"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Ingrese su correo electrónico",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="middle"
+                    style={{ width: "100%" }}
+                    placeholder="correo@info.com"
+                    autoComplete="off"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="role" label="Rol">
+                  <Select
+                    value="administrator"
+                    style={{ width: "100%" }}
+                    options={[
+                      {
+                        value: "administrator",
+                        label: "Administrador",
+                      },
+                      {
+                        value: "customer",
+                        label: "Cliente",
+                      },
+                    ]}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Form.Item>
+                <Button type="primary" htmlType="submit" loading={isSubmitting}>
+                  Añadir usuario
+                </Button>
+              </Form.Item>
+            </Row>
+          </Form>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default CreateUsers;

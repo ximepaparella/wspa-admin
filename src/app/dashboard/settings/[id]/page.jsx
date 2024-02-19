@@ -25,7 +25,7 @@ export default function Settings({ params }) {
 
   useEffect(() => {
     if (params.id) {
-      const fetchTreatment = async () => {
+      const fetchInformation = async () => {
         try {
           const information = await getInformation(params.id);
           form.setFieldsValue(information[0]); // Set field values into the form
@@ -34,7 +34,7 @@ export default function Settings({ params }) {
           console.error('Error fetching treatment:', error);
         }
       };
-      fetchTreatment();
+      fetchInformation();
     }
   }, [params.id]);
 
