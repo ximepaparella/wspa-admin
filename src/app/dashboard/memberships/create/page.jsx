@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import useManageMemberships from "@/lib/hook/useManageMemberships";
+import useImageUpload from "@/lib/hook/useImageUpload"; // Import the useImageUpload hook
 import styles from "../../../page.module.scss";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -11,154 +12,79 @@ import {
   Row,
   Col,
   Button,
-  Select,
   InputNumber,
   Divider,
   Typography,
   Upload,
   message,
-  Checkbox,
+  notification,
 } from "antd";
 
+const urlUpload = "http://localhost:3000/api/v1/memberships/upload";
+
 const CreateMembership = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the loading state
-  const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image URL
-  const [fileList, setFileList] = useState([]); // State to manage uploaded files
-  const { createMembership } = useManageMemberships(); // Destructure the createTreatment function from your hook
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createMembership } = useManageMemberships();
+  const { fileList, uploadedImageUrl, uploadFile, onChange, resetFileList } =
+    useImageUpload("memberships");
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
   const onFinish = async (values) => {
-    setIsSubmitting(true); // Indicate the start of form submission
+    setIsSubmitting(true);
     try {
-      // Add the createdAt field with the current date/time to the values object
       const valuesWithTimestamp = {
         ...values,
-        createdAt: new Date().toISOString(), // Use ISO string format for the date
-        featuredImage: uploadedImage, // Pass the uploaded image URL to the form data
+        createdAt: new Date().toISOString(),
+        featuredImage: uploadedImageUrl, // Use the URL from the hook
       };
 
-      const result = await createMembership(valuesWithTimestamp);
-      // If the API call was successful, show a success notification
-      message.success({
-        message: "Success",
-        description: "Membresías creado con éxito.",
-        placement: "topRight",
-      });
+      await createMembership(valuesWithTimestamp);
 
+      resetFileList(); // Use the resetFileList function to clear the Upload component
       form.resetFields(); // Resets the form fields after successful submission
     } catch (error) {
-      // If there was an error, show a failure notification
-      message.error({
+      notification.error({
         message: "Error",
-        description: "Error al crear el Membresías.",
+        description: "Ha ocurrido un error creando la membresía.",
         placement: "topRight",
       });
-      console.error("Error creating treatment:", error);
     } finally {
-      setIsSubmitting(false); // Indicate the end of form submission
+      setIsSubmitting(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    // Show error notification
-    message.error({
+    notification.error({
       message: "Error",
-      description: "Error al crear el Membresías.",
+      description: "Ha ocurrido un error creando la membresía.",
       placement: "topRight",
     });
   };
 
-  const onChangeCheckbox = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
-
-  const onChange = (info) => {
-    if (info.file.status === "done") {
-      // When the upload is successful, extract the URL from the response
-      const imageUrl = info.file.response.url; // Assuming the response contains the URL
-      message.success(`${info.file.name} file uploaded successfully`);
-      
-      // Now you can do something with the imageUrl, such as saving it in your component state
-      // For example, you can save it in a state variable:
-      // setImageUrl(imageUrl);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
-
-  const uploadFile = async (options) => {
-    const { file, onSuccess, onError } = options;
-  
-    // Create a FormData object to send the file
-    const formData = new FormData();
-    formData.append('file', file);
-  
-    try {
-      // Send a POST request to your server to upload the file
-      const response = await fetch('YOUR_UPLOAD_API_ENDPOINT', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          // Include any required headers here
-          Authorization: 'Bearer YOUR_ACCESS_TOKEN',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
-  
-      const responseData = await response.json();
-  
-      // Extract the image URL from the server response
-      const imageUrl = responseData.imageUrl; // Modify this based on your server response
-  
-      // Call the onSuccess function with the file and image URL
-      onSuccess(file, response);
-  
-      // Now you can do something with the imageUrl, such as saving it in your component state
-      // For example, you can save it in a state variable:
-      // setImageUrl(imageUrl);
-    } catch (error) {
-      // Handle any errors that occur during the upload
-      console.error('Upload error:', error);
-      onError(error);
-    }
-  };
-  
-
-  const props = {
-    name: 'file',
-    uploadFile,
+  const uploadProps = {
+    name: "file",
+    fileList,
     onChange,
+    customRequest: uploadFile,
   };
 
   return (
     <>
       <Breadcrumb
         items={[
-          {
-            title: "Wspa Dashboard",
-          },
-          {
-            title: <a href="/dahsboard/memberships">Membresías</a>,
-          },
-          { 
-            title: <a href="/">Crear nueva</a>,
-          },
+          { title: "Wspa Dashboard" },
+          { title: <a href="/dashboard/memberships">Memberships</a> },
+          { title: <a href="/">Create New</a> },
         ]}
       />
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <Title level={2}>Membresías</Title>
-          <Text>
-            Crea una nueva Membresía, será visible en la plataforma en
-            la sección Membresías.
-          </Text>
+          <Title level={2}>Create Membership</Title>
+          <Text>Create a new membership to be visible on the platform.</Text>
           <Divider />
         </div>
         <div className={styles["dashboard-content"]}>
@@ -190,7 +116,6 @@ const CreateMembership = () => {
                 </Form.Item>
               </Col>
 
-
               <Col span={12}>
                 <Form.Item
                   name="price"
@@ -210,13 +135,9 @@ const CreateMembership = () => {
                   />
                 </Form.Item>
               </Col>
-             
 
               <Col span={12}>
-                <Form.Item
-                  name="giftVoucherLink"
-                  label="Gift & Voucher Link"
-                >
+                <Form.Item name="giftVoucherLink" label="Gift & Voucher Link">
                   <Input
                     size="middle"
                     placeholder="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380847b62931d017b9c68ce3b29cc"
@@ -230,34 +151,28 @@ const CreateMembership = () => {
                 </Form.Item>
               </Col>
 
-            
-
               <Col span={12}>
                 <Form.Item label="Validez" name="validationText">
-                  <Input
-                    size="middle"
-                    placeholder="VÁLIDO DURANTE 30 DÍAS."
-                  />
+                  <Input size="middle" placeholder="VÁLIDO DURANTE 30 DÍAS." />
                 </Form.Item>
               </Col>
 
               <Col span={24}>
                 <Form.Item
                   name="featuredImage"
-                  label="Imagen"
+                  label="Image"
                   rules={[
                     {
                       required: true,
-                      message: "Ingrese la imagen de la Membresía",
+                      message: "Por favor subir una imagen para la membresía.",
                     },
                   ]}
                 >
-                  <Upload {...props} fileList={fileList}>
+                  <Upload {...uploadProps}>
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Upload>
                 </Form.Item>
               </Col>
-
 
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={isSubmitting}>

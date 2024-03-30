@@ -1,9 +1,11 @@
-import useManageTreatments from "@/lib/hook/useManageTreatments";
+import { fetchTreatments } from '@/lib/hook/data'
 
-export default function TreatmentGrid({ treatments }) {
+export default async function TreatmentGrid() {
+  const treatments = await fetchTreatments();
+  console.log(treatments); 
   return (
     <ul>
-      {treatments.map((treatment) => (
+      {treatments?.map((treatment) => (
         <li key={treatment.id}>
           {treatment.name}: {treatment.description}
         </li>

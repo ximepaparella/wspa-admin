@@ -79,59 +79,58 @@ const CreateSpaDays = () => {
     if (info.file.status === "done") {
       // When the upload is successful, extract the URL from the response
       const imageUrl = info.file.response.url; // Assuming the response contains the URL
-      message.success(`${info.file.name} file uploaded successfully`);
-      
+      message.success(`${info.file.name} subido correctamente.`);
+
       // Now you can do something with the imageUrl, such as saving it in your component state
       // For example, you can save it in a state variable:
       // setImageUrl(imageUrl);
     } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name} no se ha podido subir.`);
     }
   };
 
   const uploadFile = async (options) => {
     const { file, onSuccess, onError } = options;
-  
+
     // Create a FormData object to send the file
     const formData = new FormData();
-    formData.append('file', file);
-  
+    formData.append("file", file);
+
     try {
       // Send a POST request to your server to upload the file
-      const response = await fetch('YOUR_UPLOAD_API_ENDPOINT', {
-        method: 'POST',
+      const response = await fetch("YOUR_UPLOAD_API_ENDPOINT", {
+        method: "POST",
         body: formData,
         headers: {
           // Include any required headers here
-          Authorization: 'Bearer YOUR_ACCESS_TOKEN',
+          Authorization: "Bearer YOUR_ACCESS_TOKEN",
         },
       });
-  
+
       if (!response.ok) {
-        throw new Error('Upload failed');
+        throw new Error("Upload failed");
       }
-  
+
       const responseData = await response.json();
-  
+
       // Extract the image URL from the server response
       const imageUrl = responseData.imageUrl; // Modify this based on your server response
-  
+
       // Call the onSuccess function with the file and image URL
       onSuccess(file, response);
-  
+
       // Now you can do something with the imageUrl, such as saving it in your component state
       // For example, you can save it in a state variable:
       // setImageUrl(imageUrl);
     } catch (error) {
       // Handle any errors that occur during the upload
-      console.error('Upload error:', error);
+      console.error("Upload error:", error);
       onError(error);
     }
   };
-  
 
   const props = {
-    name: 'file',
+    name: "file",
     uploadFile,
     onChange,
   };
@@ -146,7 +145,7 @@ const CreateSpaDays = () => {
           {
             title: <a href="/dahsboard/spa-days">Spa Days</a>,
           },
-          { 
+          {
             title: <a href="/">Crear nuevo</a>,
           },
         ]}
