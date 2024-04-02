@@ -34,7 +34,7 @@ const useManageMemberships = () => {
     }
   };
 
-  const updateSpaDay = async (id, membershipData) => {
+  const updateMembership = async (id, membershipData) => {
     try {
       // Create a new object to hold only the fields that are provided
       const requestBody = {};
@@ -69,7 +69,7 @@ const useManageMemberships = () => {
     }
   };
 
-  const deleteSpaDay = async (id) => {
+  const deleteMembership = async (id) => {
     try {
       const response = await fetch(`${apiURL}/${id}`, {
         method: "DELETE",
@@ -93,6 +93,16 @@ const useManageMemberships = () => {
     }
   };
 
+  const getMembership = async (id) => {
+    try {
+      const response = await fetch(`${apiURL}/${id}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching Membresía:", error);
+    }
+  };
+
   const getAllMemberships = async () => {
     try {
       const response = await fetch(apiURL);
@@ -103,7 +113,13 @@ const useManageMemberships = () => {
     }
   };
 
-  return { createMembership, updateSpaDay, deleteSpaDay, getAllMemberships };
+  return {
+    createMembership,
+    updateMembership,
+    deleteMembership,
+    getAllMemberships,
+    getMembership,
+  };
 };
 
 export default useManageMemberships;

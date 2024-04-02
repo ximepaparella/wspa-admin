@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import useManageSpaDays from "@/lib/hook/useManageSpaDays";
+import useImageUpload from "@/lib/hook/useImageUpload"; // Import the useImageUpload hook
 import styles from "../../../page.module.scss";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -11,7 +12,6 @@ import {
   Row,
   Col,
   Button,
-  Select,
   InputNumber,
   Divider,
   Typography,
@@ -21,118 +21,50 @@ import {
 } from "antd";
 
 const CreateSpaDays = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the loading state
-  const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image URL
-  const [fileList, setFileList] = useState([]); // State to manage uploaded files
-  const { createSpaDay } = useManageSpaDays(); // Destructure the createTreatment function from your hook
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createSpaDay } = useManageSpaDays();
+  const { fileList, uploadFile, onChange, resetFileList } =
+    useImageUpload("spaDays"); // Use "spaDays" for the entityType
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
+  const onChangeCheckbox = (e) => {
+    console.log(`Checkbox checked: ${e.target.checked}`);
+  };
+
   const onFinish = async (values) => {
-    setIsSubmitting(true); // Indicate the start of form submission
+    setIsSubmitting(true);
     try {
-      // Add the createdAt field with the current date/time to the values object
-      const valuesWithTimestamp = {
+      const newSpaDay = {
         ...values,
-        createdAt: new Date().toISOString(), // Use ISO string format for the date
-        featuredImage: uploadedImage, // Pass the uploaded image URL to the form data
+        createdAt: new Date().toISOString(),
+        featuredImage:
+          fileList.length > 0 ? fileList[0].response.imageUrl : null, // Use the image URL from the upload response
       };
 
-      const result = await createSpaDay(valuesWithTimestamp);
-      // If the API call was successful, show a success notification
-      message.success({
-        message: "Success",
-        description: "Día de Spa creado con éxito.",
-        placement: "topRight",
-      });
-
-      form.resetFields(); // Resets the form fields after successful submission
+      await createSpaDay(newSpaDay);
+      message.success("Día de Spa creado con éxito.");
+      form.resetFields();
+      resetFileList(); // Reset the file list after successful submission
     } catch (error) {
-      // If there was an error, show a failure notification
-      message.error({
-        message: "Error",
-        description: "Error al crear el Día de Spa.",
-        placement: "topRight",
-      });
-      console.error("Error creating treatment:", error);
+      message.error("Error al crear el Día de Spa.");
+      console.error("Error creating Spa Day:", error);
     } finally {
-      setIsSubmitting(false); // Indicate the end of form submission
+      setIsSubmitting(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-    // Show error notification
-    message.error({
-      message: "Error",
-      description: "Error al crear el Día de Spa.",
-      placement: "topRight",
-    });
+    console.error("Failed:", errorInfo);
+    message.error("Error al crear el Día de Spa.");
   };
 
-  const onChangeCheckbox = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
-
-  const onChange = (info) => {
-    if (info.file.status === "done") {
-      // When the upload is successful, extract the URL from the response
-      const imageUrl = info.file.response.url; // Assuming the response contains the URL
-      message.success(`${info.file.name} subido correctamente.`);
-
-      // Now you can do something with the imageUrl, such as saving it in your component state
-      // For example, you can save it in a state variable:
-      // setImageUrl(imageUrl);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} no se ha podido subir.`);
-    }
-  };
-
-  const uploadFile = async (options) => {
-    const { file, onSuccess, onError } = options;
-
-    // Create a FormData object to send the file
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      // Send a POST request to your server to upload the file
-      const response = await fetch("YOUR_UPLOAD_API_ENDPOINT", {
-        method: "POST",
-        body: formData,
-        headers: {
-          // Include any required headers here
-          Authorization: "Bearer YOUR_ACCESS_TOKEN",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Upload failed");
-      }
-
-      const responseData = await response.json();
-
-      // Extract the image URL from the server response
-      const imageUrl = responseData.imageUrl; // Modify this based on your server response
-
-      // Call the onSuccess function with the file and image URL
-      onSuccess(file, response);
-
-      // Now you can do something with the imageUrl, such as saving it in your component state
-      // For example, you can save it in a state variable:
-      // setImageUrl(imageUrl);
-    } catch (error) {
-      // Handle any errors that occur during the upload
-      console.error("Upload error:", error);
-      onError(error);
-    }
-  };
-
-  const props = {
+  const uploadProps = {
     name: "file",
-    uploadFile,
+    fileList,
     onChange,
+    customRequest: uploadFile, // Use the customRequest from the hook
   };
 
   return (
@@ -153,10 +85,10 @@ const CreateSpaDays = () => {
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <Title level={2}>Día de Spa</Title>
+          <Title level={2}>Editar día de Spa</Title>
           <Text>
-            Crea un día de spa nuevo, el mismo será visible en la plataforma en
-            la sección Circuitos de Spa
+            Editar un día de spa, el mismo será visible en la plataforma en la
+            sección Circuitos de Spa
           </Text>
           <Divider />
         </div>
@@ -310,11 +242,11 @@ const CreateSpaDays = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Ingrese la imagen del día de spa",
+                      message: "Por favor, sube una imagen para el día de spa",
                     },
                   ]}
                 >
-                  <Upload {...props} fileList={fileList}>
+                  <Upload {...uploadProps}>
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Upload>
                 </Form.Item>
