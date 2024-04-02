@@ -16,11 +16,10 @@ import {
   Divider,
   Typography,
   Upload,
-  message,
   notification,
 } from "antd";
 
-const urlUpload = "http://localhost:3000/api/v1/memberships/upload";
+const urlUpload = process.env.NEXT_PUBLIC_UPLOAD_URL_MEMBERSHIPS;
 
 const CreateMembership = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

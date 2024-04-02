@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import useImageUpload from "@/lib/hook/useImageUpload";
 import useManageSpaDays from "@/lib/hook/useManageSpaDays";
-import useImageUpload from "@/lib/hook/useImageUpload"; // Import the useImageUpload hook
 import styles from "../../../page.module.scss";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -12,6 +12,7 @@ import {
   Row,
   Col,
   Button,
+  Select,
   InputNumber,
   Divider,
   Typography,
@@ -21,50 +22,64 @@ import {
 } from "antd";
 
 const CreateSpaDays = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { createSpaDay } = useManageSpaDays();
-  const { fileList, uploadFile, onChange, resetFileList } =
-    useImageUpload("spaDays"); // Use "spaDays" for the entityType
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the loading state
+  const { fileList, uploadedImageUrl, uploadFile, onChange, resetFileList } =
+    useImageUpload("memberships");
+  const { createSpaDay } = useManageSpaDays(); // Destructure the createTreatment function from your hook
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const { Title, Text } = Typography;
 
-  const onChangeCheckbox = (e) => {
-    console.log(`Checkbox checked: ${e.target.checked}`);
-  };
-
   const onFinish = async (values) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Indicate the start of form submission
     try {
-      const newSpaDay = {
+      const valuesWithTimestamp = {
         ...values,
         createdAt: new Date().toISOString(),
-        featuredImage:
-          fileList.length > 0 ? fileList[0].response.imageUrl : null, // Use the image URL from the upload response
+        featuredImage: uploadedImageUrl, // Use the URL from the hook
       };
 
-      await createSpaDay(newSpaDay);
-      message.success("Día de Spa creado con éxito.");
-      form.resetFields();
-      resetFileList(); // Reset the file list after successful submission
+      const result = await createSpaDay(valuesWithTimestamp);
+
+      // If the API call was successful, show a success notification
+      message.success({
+        message: "Success",
+        description: "Día de Spa creado con éxito.",
+        placement: "topRight",
+      });
+      resetFileList(); // Use the resetFileList function to clear the Upload component
+      form.resetFields(); // Resets the form fields after successful submission
     } catch (error) {
-      message.error("Error al crear el Día de Spa.");
-      console.error("Error creating Spa Day:", error);
+      notification.error({
+        message: "Error",
+        description: "Ha ocurrido un error creando la membresía.",
+        placement: "topRight",
+      });
+      console.error("Error creating treatment:", error);
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Indicate the end of form submission
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.error("Failed:", errorInfo);
-    message.error("Error al crear el Día de Spa.");
+    console.log("Failed:", errorInfo);
+    // Show error notification
+    message.error({
+      message: "Error",
+      description: "Error al crear el Día de Spa.",
+      placement: "topRight",
+    });
+  };
+
+  const onChangeCheckbox = (e) => {
+    console.log(`checked = ${e.target.checked}`);
   };
 
   const uploadProps = {
     name: "file",
     fileList,
     onChange,
-    customRequest: uploadFile, // Use the customRequest from the hook
+    customRequest: uploadFile,
   };
 
   return (
@@ -85,10 +100,10 @@ const CreateSpaDays = () => {
 
       <section className={styles["dashboard-container"]}>
         <div className={styles["dashboard-title"]}>
-          <Title level={2}>Editar día de Spa</Title>
+          <Title level={2}>Día de Spa</Title>
           <Text>
-            Editar un día de spa, el mismo será visible en la plataforma en la
-            sección Circuitos de Spa
+            Crea un día de spa nuevo, el mismo será visible en la plataforma en
+            la sección Circuitos de Spa
           </Text>
           <Divider />
         </div>
@@ -192,6 +207,12 @@ const CreateSpaDays = () => {
                 <Form.Item
                   name="giftVoucherOnlyId"
                   label="Gift & Voucher ID (1 persona)"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor subir una imagen para la membresía.",
+                    },
+                  ]}
                 >
                   <Input
                     size="middle"
@@ -211,6 +232,12 @@ const CreateSpaDays = () => {
                 <Form.Item
                   name="giftVoucherDoubleId"
                   label="Gift & Voucher ID (2 personas)"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Por favor subir una imagen para la membresía.",
+                    },
+                  ]}
                 >
                   <Input
                     size="middle"
@@ -238,11 +265,11 @@ const CreateSpaDays = () => {
               <Col span={12}>
                 <Form.Item
                   name="featuredImage"
-                  label="Imagen"
+                  label="Image"
                   rules={[
                     {
                       required: true,
-                      message: "Por favor, sube una imagen para el día de spa",
+                      message: "Por favor subir una imagen para la membresía.",
                     },
                   ]}
                 >

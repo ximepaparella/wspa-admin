@@ -104,7 +104,17 @@ const useManageSpaDays = () => {
     }
   };
 
-  return { createSpaDay, updateSpaDay, deleteSpaDay, getAllSpaDays };
+  const getDaySpa = async () => {
+    try {
+      const response = await fetch(apiURL);
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching spa days:", error);
+    }
+  };
+
+  return { createSpaDay, updateSpaDay, deleteSpaDay, getAllSpaDays, getDaySpa };
 };
 
 export default useManageSpaDays;
